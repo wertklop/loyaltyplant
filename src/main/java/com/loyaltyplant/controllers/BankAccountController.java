@@ -1,7 +1,6 @@
 package com.loyaltyplant.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loyaltyplant.entity.BankAccount;
 import com.loyaltyplant.repositories.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class BankAccountController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public String getBankAccounts(@RequestParam(value = "start", defaultValue = "0") int start,
+    public DataTablesDTO getBankAccounts(@RequestParam(value = "start", defaultValue = "0") int start,
                                   @RequestParam(value = "length", defaultValue = "10") int length) throws JsonProcessingException {
         Pageable pageable = new PageRequest((start + 1)/length, length);
         DataTablesDTO dto = new DataTablesDTO();
@@ -38,7 +37,7 @@ public class BankAccountController {
         dto.setRecordsTotal(bankAccountRepository.count());
         dto.setRecordsFiltered(dto.getRecordsTotal());
         dto.setData(bankAccountRepository.findAll(pageable).getContent());
-        return new ObjectMapper().writeValueAsString(dto);
+        return dto;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -54,6 +53,7 @@ public class BankAccountController {
         bankAccountRepository.delete(id);
     }
 
+    //DTO-класс для плагина dataTables
     private class DataTablesDTO {
 
         private int draw;
