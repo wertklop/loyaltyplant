@@ -29,7 +29,7 @@ public class BankAccountController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public DataTablesDTO getBankAccounts(@RequestParam(value = "start", defaultValue = "0") int start,
-                                  @RequestParam(value = "length", defaultValue = "10") int length) throws JsonProcessingException {
+                                         @RequestParam(value = "length", defaultValue = "10") int length) throws JsonProcessingException {
         Pageable pageable = new PageRequest((start + 1)/length, length);
         DataTablesDTO dto = new DataTablesDTO();
         dto.setLength(length);

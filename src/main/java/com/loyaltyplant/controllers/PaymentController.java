@@ -25,8 +25,8 @@ public class PaymentController {
 
     @RequestMapping(value = "transfer", method = RequestMethod.POST)
     public ResponseEntity<String> transfer(@RequestParam(value = "from", required = false) Long from,
-                         @RequestParam("to") Long to,
-                         @RequestParam("amount") BigDecimal amount) {
+                                           @RequestParam("to") Long to,
+                                           @RequestParam("amount") BigDecimal amount) {
         Payment payment = new Payment();
         payment.setDate(new Date());
         payment.setSum(amount);
