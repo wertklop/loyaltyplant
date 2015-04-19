@@ -14,6 +14,14 @@ import javax.persistence.Table;
 @Entity
 public class BankAccount {
 
+    public BankAccount() {
+    }
+
+    public BankAccount(String userName, String number) {
+        this.userName = userName;
+        this.number = number;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
