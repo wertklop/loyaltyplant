@@ -6,7 +6,6 @@ import com.loyaltyplant.repositories.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,6 @@ public class BankAccountController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
         bankAccountRepository.delete(id);
     }
