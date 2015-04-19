@@ -1,10 +1,13 @@
 package com.loyaltyplant.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.List;
 
 @Configuration
 @ComponentScan("com.loyaltyplant")
@@ -46,11 +50,6 @@ public class LoyaltyplantApplicationConfiguration extends WebMvcConfigurerAdapte
         return viewResolver;
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/");
-    }
-
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -72,6 +71,19 @@ public class LoyaltyplantApplicationConfiguration extends WebMvcConfigurerAdapte
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory());
         return txManager;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/");
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(new ObjectMapper());
+        converters.add(converter);
+        super.configureMessageConverters(converters);
     }
 
     @Override
